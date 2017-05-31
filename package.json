@@ -1,0 +1,28 @@
+{
+  "name": "vue-iconz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "poi docs/app.js",
+    "build": "poi build docs/app.js -d docs/dist",
+    "generate": "node generator.js",
+    "generate:reload": "nodemon generator.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cannap/vue-iconz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cannap/vue-iconz/issues"
+  },
+  "homepage": "https://github.com/cannap/vue-iconz#readme",
+  "devDependencies": {
+    "glob": "^7.1.2",
+    "poi": "^8.1.1"
+  }
+}
