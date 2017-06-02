@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "poi docs/app.js",
     "build": "poi build docs/app.js -d docs/dist",
-    "generate": "node generator.js",
-    "generate:reload": "nodemon generator.js"
+    "generate": "gulp && node generator.js",
+    "prebuild": "git submodule update --init",
+    "generate:reload": "nodemon generator.js --watch generator.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,15 @@
   },
   "homepage": "https://github.com/cannap/vue-iconz#readme",
   "devDependencies": {
+    "camelize": "^1.0.0",
+    "cheerio": "^1.0.0-rc.1",
     "glob": "^7.1.2",
-    "poi": "^8.1.1"
+    "gulp": "^3.9.1",
+    "mkdirp": "^0.5.1",
+    "poi": "^8.1.1",
+    "rimraf": "^2.6.1",
+    "svg-scaler": "^0.1.5",
+    "underscore": "^1.8.3",
+    "webpack": "^2.6.1"
   }
 }
