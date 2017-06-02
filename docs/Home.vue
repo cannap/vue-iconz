@@ -1,5 +1,5 @@
 <template>
-  <div class="class"> WTgregFgregrgregfefef
+  <div class="class"> WTgregFgfewfegregregrgregfefef
   </div>
 </template>
 
@@ -9,7 +9,7 @@ export default {
   name: 'Home',
 
   components: {
-   // Icon
+    // Icon
   }
 }
 </script>
