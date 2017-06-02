@@ -1,3 +1,12 @@
-[submodule "mdi"]
+[submodule "icons/oct"]
+	path = icons/oct
+	url = https://github.com/primer/octicons/
+[submodule "icons/mdi"]
 	path = icons/mdi
-	url = git@github.com:Templarian/MaterialDesign.git
+	url = https://github.com/Templarian/MaterialDesign
+[submodule "icons/fa"]
+	path = icons/fa
+	url = https://github.com/encharm/Font-Awesome-SVG-PNG
+[submodule "icons/ti"]
+	path = icons/ti
+	url = https://github.com/stephenhutchings/typicons.font
