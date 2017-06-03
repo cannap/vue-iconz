@@ -22,8 +22,8 @@
   "bugs": {
     "url": "https://github.com/cannap/vue-iconz/issues"
   },
-  "homepage": "https://github.com/cannap/vue-iconz#readme",
   "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
     "camelize": "^1.0.0",
     "cheerio": "^1.0.0-rc.1",
     "directory-tree": "^2.0.0",
@@ -33,13 +33,18 @@
     "gulp-progress": "^1.0.0",
     "jsonfile": "^3.0.0",
     "mkdirp": "^0.5.1",
+    "node-sass": "^4.5.3",
     "poi": "^8.1.1",
     "rimraf": "^2.6.1",
+    "sass-loader": "^6.0.5",
     "svg-scaler": "^0.1.5",
     "underscore": "^1.8.3",
     "webpack": "^2.6.1"
   },
   "dependencies": {
-    "filendir": "^1.0.0"
+    "babel-preset-vue-app": "^1.2.0",
+    "filendir": "^1.0.0",
+    "kebab-case": "^1.0.0",
+    "ress": "^1.2.2"
   }
 }

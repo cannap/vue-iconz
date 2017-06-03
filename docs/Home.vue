@@ -1,35 +1,56 @@
 <template>
-  <div class="class">
-   <div v-for="icon in icons">
-
-   </div>
+  <div class="container">
+  
+    <h2>Font Awesome</h2>
+    <div class="icons">
+      <div class="icon"
+        v-for="icon in mdi"
+        v-once>
+  
+        <component :is="icon"
+          :height="50"
+          :width="50" /> {{icon}}
+  
+      </div>
+  
+    </div>
+  
   </div>
 </template>
 <script>
 
 
-
-
-import Icon from '../dist/ti/world.js'
-import icons from './icons.json'
+import * as mdi from '../dist/mdi'
+//import * as fa from '../dist/fa'
+//import * as ion from '../dist/ion'
+var kebabCase = require('kebab-case')
 
 export default {
+
   name: 'Home',
-  data() {
+  computed: {
+    mdi () {
+      return Object.keys(mdi).map((key) => {
+        return kebabCase(key)
+      })
+    }
+  },
+
+  data () {
     return {
-      icons
+      size: 512
     }
   },
   components: {
-    Icon,
-   
+    ...mdi
   }
 }
 </script>
 
-<style>
-svg {
-  vertical-align: middle;
-  display: inline-block;
+<style lang="scss">
+.align {
+
+  height: 24px;
+  width: 24px;
 }
 </style>

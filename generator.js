@@ -14,7 +14,7 @@ var mkdirp = require('mkdirp')
 const template = require('./template')
 const iconSets = {
   mdi: './tmpicon/icons/mdi/icons/svg/*.svg',
-  fa: './tmpicon/icons/fa/black/svg/*.svg',
+  // fa: './tmpicon/icons/fa/black/svg/*.svg'
   oct: './tmpicon/icons/oct/lib/svg/*.svg',
   ti: './tmpicon/icons/ti/src/svg/*.svg',
   ion: './tmpicon/icons/ion/src/*.svg'
@@ -39,7 +39,6 @@ function writeIcon (iconPath) {
   var componentName = camelize(`${iconFolder}-${fileName}`)
 
   var destination = path.join(dist, iconFolder, fileName + '.js')
-  var folderDest = path.join(dist, iconFolder)
 
   filndir.ws(destination, generateIcon(iconPath, componentName), 'utf-8')
 }
@@ -55,11 +54,12 @@ function generateIcon (iconPath, componentName) {
   cleanAtrributes($svg, $)
   var content = $svg.html()
 
-  // var viewBox = $svg.attr('viewBox')
-
+  var viewBox = $svg.attr('viewBox')
+  console.log(viewBox)
   return template({
     componentName,
-    content
+    content,
+    viewBox
   })
 }
 
@@ -82,22 +82,37 @@ rimraf(dist, () => {
 
   Promise.all(work)
     .then(data => {
-      for (set of data) {
+      for (let set of data) {
         let iconFolder = set[0].split('/')[3]
-        var indexJS =
+        const imports =
           set
-            .map(function (iconPath) {
-              var fileName = path.basename(iconPath, '.svg')
-              var componentName = camelize(`${iconFolder}-${fileName}`)
-              return `export ${componentName} from './${fileName}'`
+            .map(iconPath => {
+              let fileName = path.basename(iconPath, '.svg')
+              let componentName = camelize(`${iconFolder}-${fileName}`)
+              return `var ${componentName} = require('./${fileName}').default`
             })
             .join('\n') + '\n'
-        var folderDest = path.join(dist, iconFolder)
+
+        const exports =
+          set
+            .map(iconPath => {
+              let fileName = path.basename(iconPath, '.svg')
+              let componentName = camelize(`${iconFolder}-${fileName}`)
+              return `${componentName},`
+            })
+            .join('\n') + '\n'
+
+        const indexJS = `
+${imports}
+module.exports = {
+  ${exports}
+}
+
+`
         var destination = path.join(dist, iconFolder, 'index.js')
-        console.log(destination)
         filndir.ws(destination, indexJS, 'utf-8')
 
-        for (icon of set) {
+        for (let icon of set) {
           iconCount++
           writeIcon(icon)
         } //

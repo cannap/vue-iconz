@@ -2,7 +2,7 @@ function template (data) {
   return `
 const ${data.componentName} = {
   functional: true,
-  name: ${data.componentName},
+  name: '${data.componentName}',
   props: {
     height: {
       type: [String, Number],
@@ -26,17 +26,15 @@ const ${data.componentName} = {
     const svg = h('svg', {
       class: ctx.props.className,
       style: ctx.props.styles,
+       preserveAspectRatio:'xMidYMid meet',
       attrs: {
         height: ctx.props.height,
         width: ctx.props.width,
-        viewBox: ctx.props.viewBox ||
-                   '0 0' + ' ' + ctx.props.width + ' ' + ctx.props.height,
-        preserveAspectRatio: 'xMidYMid meet',
+        viewBox: '${data.viewBox}',
         fill: 'currentColor',
-        'xml:space': 'preserve'
       },
       domProps: {
-        innerHTML:'${data.content}'
+        innerHTML:'<g>${data.content}</g>'
       }
     })
     return svg
