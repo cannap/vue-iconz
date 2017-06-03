@@ -1,7 +1,9 @@
 const path = require('path')
 const camelize = require('camelize')
 const { promisify } = require('util')
-const { writeFileSync, readFileSync, existsSync, unlinkSync } = require('fs')
+const { readFileSync } = require('fs')
+
+var filndir = require('filendir')
 const cheerio = require('cheerio')
 const glob = promisify(require('glob'))
 const dist = path.resolve('dist')
@@ -29,20 +31,17 @@ var cleanAtrributes = function ($el, $) {
     cleanAtrributes($(el), $)
   })
 }
-
-async function writeIcon (iconPath) {
+//
+function writeIcon (iconPath) {
   var iconFolder = iconPath.split('/')[3] // Hope this works
+
   var fileName = path.basename(iconPath, '.svg')
   var componentName = camelize(`${iconFolder}-${fileName}`)
 
   var destination = path.join(dist, iconFolder, fileName + '.js')
   var folderDest = path.join(dist, iconFolder)
 
-  var iconInfo = {}
-
-  mkdirp(folderDest, function () {
-    writeFileSync(destination, generateIcon(iconPath, componentName), 'utf-8')
-  })
+  filndir.ws(destination, generateIcon(iconPath, componentName), 'utf-8')
 }
 
 function generateIcon (iconPath, componentName) {
@@ -84,14 +83,29 @@ rimraf(dist, () => {
   Promise.all(work)
     .then(data => {
       for (set of data) {
+        let iconFolder = set[0].split('/')[3]
+        var indexJS =
+          set
+            .map(function (iconPath) {
+              var fileName = path.basename(iconPath, '.svg')
+              var componentName = camelize(`${iconFolder}-${fileName}`)
+              return `export ${componentName} from './${fileName}'`
+            })
+            .join('\n') + '\n'
+        var folderDest = path.join(dist, iconFolder)
+        var destination = path.join(dist, iconFolder, 'index.js')
+        console.log(destination)
+        filndir.ws(destination, indexJS, 'utf-8')
+
         for (icon of set) {
           iconCount++
-          writeIcon(icon).then(generatedIcon => {})
+          writeIcon(icon)
         } //
       }
+
       console.log(`${iconCount} generated Icons`)
     })
     .catch(err => {
-      console.log('error')
+      console.log('error', err)
     })
 })

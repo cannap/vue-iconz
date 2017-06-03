@@ -9,7 +9,8 @@
     "build": "poi build docs/app.js -d docs/dist",
     "generate": "gulp && node generator.js",
     "prebuild": "git submodule update --init",
-    "generate:reload": "nodemon generator.js --watch generator.js"
+    "generate:reload": "nodemon generator.js --watch generator.js",
+    "generate:docs": "nodemon generateDocs.js --watch generateDocs.js"
   },
   "repository": {
     "type": "git",
@@ -25,15 +26,20 @@
   "devDependencies": {
     "camelize": "^1.0.0",
     "cheerio": "^1.0.0-rc.1",
+    "directory-tree": "^2.0.0",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-imagemin": "^3.3.0",
     "gulp-progress": "^1.0.0",
+    "jsonfile": "^3.0.0",
     "mkdirp": "^0.5.1",
     "poi": "^8.1.1",
     "rimraf": "^2.6.1",
     "svg-scaler": "^0.1.5",
     "underscore": "^1.8.3",
     "webpack": "^2.6.1"
+  },
+  "dependencies": {
+    "filendir": "^1.0.0"
   }
 }

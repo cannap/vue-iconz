@@ -1,17 +1,28 @@
 <template>
   <div class="class">
-    <Icon width="40"
-      height="40" />
+   <div v-for="icon in icons">
+
+   </div>
   </div>
 </template>
-
 <script>
+
+
+
+
 import Icon from '../dist/ti/world.js'
+import icons from './icons.json'
+
 export default {
   name: 'Home',
-
+  data() {
+    return {
+      icons
+    }
+  },
   components: {
-    Icon
+    Icon,
+   
   }
 }
 </script>
