@@ -11,10 +11,11 @@ var attrs = ['xlink:href', 'clip-path', 'fill-opacity', 'fill']
 var mkdirp = require('mkdirp')
 const template = require('./template')
 const iconSets = {
-  mdi: './dest/icons/mdi/icons/svg/*.svg',
-  fa: './dest/icons/fa/black/svg/*.svg',
-  oct: './dest/icons/oct/lib/svg/*.svg',
-  ti: './dest/icons/ti/src/svg/*.svg'
+  mdi: './tmpicon/icons/mdi/icons/svg/*.svg',
+  fa: './tmpicon/icons/fa/black/svg/*.svg',
+  oct: './tmpicon/icons/oct/lib/svg/*.svg',
+  ti: './tmpicon/icons/ti/src/svg/*.svg',
+  ion: './tmpicon/icons/ion/src/*.svg'
 }
 var cleanAtrributes = function ($el, $) {
   _.each(attrs, function (attr) {
@@ -46,23 +47,16 @@ async function writeIcon (iconPath) {
 
 function generateIcon (iconPath, componentName) {
   var svg = readFileSync(iconPath, 'utf-8')
- 
- 
- 
+
   let $ = cheerio.load(svg, {
     xmlMode: true
   })
   var $svg = $('svg')
 
-
-
-
   cleanAtrributes($svg, $)
   var content = $svg.html()
 
-
-
- // var viewBox = $svg.attr('viewBox')
+  // var viewBox = $svg.attr('viewBox')
 
   return template({
     componentName,
@@ -101,27 +95,3 @@ rimraf(dist, () => {
       console.log('error')
     })
 })
-
-/*
-glob()
-  .then(icons => {
-    for (let icon of icons) {
-      let componentName = path.basename(icon, '.svg')
-      let location = path.join(dist, icon.split('/')[1], componentName) + '.vue'
-
-      var svg = readFileSync(icon, 'utf-8')
-      let $ = cheerio.load(svg, {
-        xmlMode: true
-      })
-      var $svg = $('svg')
-
-      cleanAtrributes($svg, $)
-      var iconSvg = $svg.html()
-
-      var viewBox = $svg.attr('viewBox')
-    }
-  })
-  .catch(err => {
-    console.error(err)
-  })
-  */

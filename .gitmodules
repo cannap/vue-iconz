@@ -10,3 +10,6 @@
 [submodule "icons/ti"]
 	path = icons/ti
 	url = https://github.com/stephenhutchings/typicons.font
+[submodule "icons/ion"]
+	path = icons/ion
+	url = https://github.com/ionic-team/ionicons

@@ -1,15 +1,17 @@
 <template>
-  <div class="class"> WTgregFgfewfegregregrgregfefef
+  <div class="class">
+    <Icon width="40"
+      height="40" />
   </div>
 </template>
 
 <script>
-//import Icon from '../dist/fa/500px'
+import Icon from '../dist/ti/world.js'
 export default {
   name: 'Home',
 
   components: {
-    // Icon
+    Icon
   }
 }
 </script>

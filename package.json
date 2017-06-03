@@ -27,6 +27,8 @@
     "cheerio": "^1.0.0-rc.1",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-progress": "^1.0.0",
     "mkdirp": "^0.5.1",
     "poi": "^8.1.1",
     "rimraf": "^2.6.1",
