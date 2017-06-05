@@ -51,7 +51,7 @@
           <div class="icon"
             v-for="icon in icons">
   
-            <div v-ripple="'#F5F5F5'"
+            <div v-ripple="'rgba(245, 245, 245, .5)'"
               class="icon-inner">
               <component :is="icon.name" /> {{icon.name}}
             </div>
@@ -128,7 +128,7 @@ export default {
           keys: this.keys
         })
 
-         if(search.length > 0) {
+         if(this.search.length > 0) {
           this.icons = this.fuse.search(this.search)
          }
       })
