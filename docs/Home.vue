@@ -86,10 +86,11 @@ export default {
       icons: [],
       search: '',
       loading: false,
+      backupIcons: [],
       currentSet: 'oct',
       isSidebar: false,
       setInfo: false,
-      keys: ['tags', 'name'],
+      keys: ['tags'],
       iconSets: [
         {
           name: 'Ionicons',
@@ -112,29 +113,24 @@ export default {
   },
   //
   methods: {
-
     getImport (iconName) {
-
       var iconFile = kebabCase(iconName)
       var folder = iconFile.split('-')[0]
-
       return `import ${iconName} from 'vue-iconz/${folder}/${iconFile}'`
     },
-
-    search (e) {
-
-    },
-
     loadIcons () {
-
-
       this.loading = true
       axios.get(`/data/${this.currentSet}.json`).then(res => {
         this.icons = res.data.set
         this.loading = false
+        this.backupIcons = res.data.set
         this.fuse = new Fuse(this.icons, {
           keys: this.keys
         })
+
+         if(search.length > 0) {
+          this.icons = this.fuse.search(this.search)
+         }
       })
     }
   },
@@ -143,20 +139,17 @@ export default {
       this.loadIcons()
     },
     search (newVal, old) {
-
-      this.icons = this.fuse.search(newVal)
-
-    },
+      if (newVal.length === 0) {
+        console.log('reset icons')
+        this.icons = this.backupIcons
+      } else {
+        this.icons = this.fuse.search(newVal)
+      }
+    }
   },
   created () {
-
-    this.loadIcons()
-    this.$on('iconsChanged', results => {
-      this.icons = results
-
-    })
+    this.loadIcons() 
   },
-
   components: {
     ...mdi,
     ...ion,
@@ -191,6 +184,7 @@ body {
   background: white;
   top: 0;
   left: 0;
+  z-index: 99999;
 }
 
 
