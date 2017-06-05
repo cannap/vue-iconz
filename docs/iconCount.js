@@ -1,1 +1,1 @@
-export default { iconCount: 3259 }
+export default { iconCount: 4045 }

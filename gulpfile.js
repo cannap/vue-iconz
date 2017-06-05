@@ -4,7 +4,7 @@ var imagemin = require('gulp-imagemin')
 var surge = require('gulp-surge')
 var icons = [
   './icons/mdi/icons/svg/*.svg',
-  //  './icons/fa/black/svg/*.svg'
+  './icons/fa/black/svg/*.svg',
   './icons/oct/lib/svg/*.svg',
   './icons/ti/src/svg/*.svg',
   './icons/ion/src/*.svg'

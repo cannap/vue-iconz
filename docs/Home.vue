@@ -53,7 +53,7 @@
   
             <div v-ripple="'rgba(245, 245, 245, .5)'"
               class="icon-inner">
-              <component :is="icon.name" /> {{icon.name}}
+              <component :is="icon.name" />
             </div>
   
           </div>
@@ -70,12 +70,12 @@ import counter from './iconCount'
 import * as mdi from '../dist/mdi'
 import * as ti from '../dist/ti'
 import * as oct from '../dist/oct'
-//import * as fa from '../dist/fa'
+import * as fa from '../dist/fa'
 import Fuse from 'fuse.js'
 import * as ion from '../dist/ion'
 var kebabCase = require('kebab-case')
 import axios from 'axios'
-import { omit } from 'underscore'
+
 export default {
   name: 'Home',
   data () {
@@ -96,6 +96,10 @@ export default {
           name: 'Ionicons',
           path: 'ion'
 
+        },
+        {
+          name: 'Font awesome',
+          path: 'fa'
         },
         {
           name: 'Octicons',
@@ -128,9 +132,9 @@ export default {
           keys: this.keys
         })
 
-         if(this.search.length > 0) {
+        if (this.search.length > 0) {
           this.icons = this.fuse.search(this.search)
-         }
+        }
       })
     }
   },
@@ -140,7 +144,6 @@ export default {
     },
     search (newVal, old) {
       if (newVal.length === 0) {
-        console.log('reset icons')
         this.icons = this.backupIcons
       } else {
         this.icons = this.fuse.search(newVal)
@@ -148,13 +151,14 @@ export default {
     }
   },
   created () {
-    this.loadIcons() 
+    this.loadIcons()
   },
   components: {
     ...mdi,
     ...ion,
     ...oct,
     ...ti,
+    ...fa,
     Spinner
   }
 }

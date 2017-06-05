@@ -13,6 +13,13 @@ for (let path in paths) {
 function generateObject (folderPaths) {
   var icons = [
     {
+      name: 'Font awesome',
+      url: 'http://typicons.com/',
+      folder: 'fa',
+      set: []
+    },
+
+    {
       name: 'Material Design icons',
       url: 'https://materialdesignicons.com/',
       folder: 'mdi',
