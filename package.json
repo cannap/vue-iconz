@@ -29,6 +29,7 @@
     "cheerio": "^1.0.0-rc.1",
     "docs": "0.0.0-37",
     "filendir": "^1.0.0",
+    "fuse.js": "^3.0.4",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-imagemin": "^3.3.0",
@@ -44,6 +45,7 @@
     "underscore": "^1.8.3",
     "vue-clipboard2": "0.0.6",
     "vue-fuse": "^1.1.0",
+    "vue-ripple-directive": "^1.0.7",
     "vue-simple-spinner": "^1.2.1",
     "vue2-clipboards": "0.0.6",
     "webpack": "^2.6.1"

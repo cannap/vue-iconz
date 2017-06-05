@@ -1,30 +1,28 @@
 <template>
   <div class="wrapper">
   
-    <div class="badgets">
-      <!-- Place this tag where you want the button to render. -->
-      <a class="github-button"
-        href="https://github.com/cannap/vue-iconz"
-        data-icon="octicon-star"
-        data-show-count="true"
-        aria-label="Star cannap/vue-iconz on GitHub">Star</a>
-    </div>
+    <button class="toggleSidebar sidebar-toggle"
+      @click="isSidebar = true">
+      <component is="oct-three-bars" />
+    </button>
+  
     <div class="loading"
       v-show="loading">
       <spinner></spinner>
     </div>
+    <div class="sidebar"
+      v-show="isSidebar">
+      <button class="close-sidebar"
+        @click="isSidebar = false">
+        <component is="ion-android-close" />
+      </button>
   
-    <header class="container header">
-      <div class="header-inner">
+      <div class="">
         <div class="search">
   
-          <vue-fuse class="search-field"
-            v-if="icons"
-            :keys="keys"
-            placeholder="search"
-            :list="icons"
-            eventName="bikesChanged"></vue-fuse>
-  
+          <input type="text"
+            v-model="search"
+            class="search-field">
         </div>
   
         <ul class="menu">
@@ -36,19 +34,26 @@
           </li>
         </ul>
   
+        <div class="badgets">
+          <!-- Place this tag where you want the button to render. -->
+          <a class="github-button"
+            href="https://github.com/cannap/vue-iconz"
+            data-icon="octicon-star"
+            data-show-count="true"
+            aria-label="Star cannap/vue-iconz on GitHub">Star</a>
+        </div>
       </div>
-    </header>
-    <section class=" icons-container">
+    </div>
+    <section class="icons-container">
   
       <div class="container">
-  
         <div class="icons">
           <div class="icon"
-            v-for="icon in icons"
-            v-if="icons">
+            v-for="icon in icons">
   
-            <div class="icon-inner">
-              <component :is="icon.name" />
+            <div v-ripple="'#F5F5F5'"
+              class="icon-inner">
+              <component :is="icon.name" /> {{icon.name}}
             </div>
   
           </div>
@@ -66,6 +71,7 @@ import * as mdi from '../dist/mdi'
 import * as ti from '../dist/ti'
 import * as oct from '../dist/oct'
 //import * as fa from '../dist/fa'
+import Fuse from 'fuse.js'
 import * as ion from '../dist/ion'
 var kebabCase = require('kebab-case')
 import axios from 'axios'
@@ -74,25 +80,28 @@ export default {
   name: 'Home',
   data () {
     return {
+      fuse: null,
       size: 40,
       counter,
-      icons: false,
+      icons: [],
+      search: '',
       loading: false,
       currentSet: 'oct',
+      isSidebar: false,
       setInfo: false,
       keys: ['tags', 'name'],
       iconSets: [
         {
           name: 'Ionicons',
-          path: 'ion',
+          path: 'ion'
 
         },
         {
           name: 'Octicons',
-          path: 'oct',
+          path: 'oct'
 
         }, {
-          name: 'Material Design Icnons',
+          name: 'Material Design',
           path: 'mdi',
         }, {
           name: 'Typicons',
@@ -112,27 +121,39 @@ export default {
       return `import ${iconName} from 'vue-iconz/${folder}/${iconFile}'`
     },
 
+    search (e) {
+
+    },
+
     loadIcons () {
+
 
       this.loading = true
       axios.get(`/data/${this.currentSet}.json`).then(res => {
         this.icons = res.data.set
         this.loading = false
+        this.fuse = new Fuse(this.icons, {
+          keys: this.keys
+        })
       })
     }
   },
   watch: {
     currentSet () {
       this.loadIcons()
-    }
+    },
+    search (newVal, old) {
 
+      this.icons = this.fuse.search(newVal)
+
+    },
   },
   created () {
 
-
     this.loadIcons()
-    this.$on('bikesChanged', results => {
+    this.$on('iconsChanged', results => {
       this.icons = results
+
     })
   },
 
@@ -152,12 +173,12 @@ body {
   font-family: 'Roboto', sans-serif;
   background: white;
   color: black;
-  padding-top: 45px;
+  padding-top: 120px;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 800px;
 }
 
 .loading {
@@ -188,7 +209,8 @@ body {
 
 
     .icon-inner {
-
+      position: relative;
+      z-index: 9;
       width: 100%;
       justify-content: center;
       align-items: center;
@@ -217,20 +239,17 @@ body {
   padding: 0 20px;
 }
 
-.header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-}
+
 
 .menu {
-  display: flex;
-  list-style-type: none;
 
+  list-style-type: none;
+  align-content: center;
+  margin-top: 20px;
   li {
     margin-right: 20px;
 
-
+    margin-bottom: 10px;
     &.active {
       a {
         font-weight: 700;
@@ -246,16 +265,34 @@ a {
 }
 
 .badgets {
-  position: fixed;
+  /* position: fixed;
   top: 20px;
-  right: 20px;
+  right: 20px;*/
+  margin-top: 20px;
 }
 
-.header {
+
+
+.sidebar {
+
+  padding-top: 60px;
+  width: 220px;
   position: fixed;
+  height: 100%;
+  z-index: 12;
+  background: white;
   top: 0;
-  width:100%;
-  right:0;
-  background:white;
+  text-align: center;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px rgba(0, 0, 0, .14), 0 1px 10px rgba(0, 0, 0, .12);
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+
+.close-sidebar {
+  margin-bottom: 20px;
 }
 </style>
