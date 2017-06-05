@@ -8,9 +8,9 @@
     "dev": "poi docs/app.js",
     "build": "poi build docs/app.js -d docs/dist",
     "generate": "gulp && node generator.js",
-    "prebuild": "git submodule update --init",
+    "deploy": "git submodule update --init && node generator && node createDocs.js && npm run build && gulp deploy",
     "generate:reload": "nodemon generator.js --watch generator.js",
-    "generate:docs": "nodemon generateDocs.js --watch generateDocs.js"
+    "generate:docs": "nodemon createDocs.js --watch createDocs.js"
   },
   "repository": {
     "type": "git",
@@ -23,28 +23,29 @@
     "url": "https://github.com/cannap/vue-iconz/issues"
   },
   "devDependencies": {
+    "axios": "^0.16.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "camelize": "^1.0.0",
     "cheerio": "^1.0.0-rc.1",
-    "directory-tree": "^2.0.0",
+    "docs": "0.0.0-37",
+    "filendir": "^1.0.0",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-imagemin": "^3.3.0",
-    "gulp-progress": "^1.0.0",
-    "jsonfile": "^3.0.0",
-    "mkdirp": "^0.5.1",
+    "gulp-surge": "^0.1.0",
+    "jsonminify": "^0.4.1",
+    "kebab-case": "^1.0.0",
     "node-sass": "^4.5.3",
     "poi": "^8.1.1",
+    "ress": "^1.2.2",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.5",
     "svg-scaler": "^0.1.5",
     "underscore": "^1.8.3",
+    "vue-clipboard2": "0.0.6",
+    "vue-fuse": "^1.1.0",
+    "vue-simple-spinner": "^1.2.1",
+    "vue2-clipboards": "0.0.6",
     "webpack": "^2.6.1"
-  },
-  "dependencies": {
-    "babel-preset-vue-app": "^1.2.0",
-    "filendir": "^1.0.0",
-    "kebab-case": "^1.0.0",
-    "ress": "^1.2.2"
   }
 }

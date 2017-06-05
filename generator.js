@@ -3,22 +3,17 @@ const camelize = require('camelize')
 const { promisify } = require('util')
 const { readFileSync } = require('fs')
 
+const iconSets = require('./config').iconSets
+
 var filndir = require('filendir')
 const cheerio = require('cheerio')
 const glob = promisify(require('glob'))
 const dist = path.resolve('dist')
+
 const _ = require('underscore')
 var rimraf = require('rimraf')
 var attrs = ['xlink:href', 'clip-path', 'fill-opacity', 'fill']
-var mkdirp = require('mkdirp')
 const template = require('./template')
-const iconSets = {
-  mdi: './tmpicon/icons/mdi/icons/svg/*.svg',
-  // fa: './tmpicon/icons/fa/black/svg/*.svg'
-  oct: './tmpicon/icons/oct/lib/svg/*.svg',
-  ti: './tmpicon/icons/ti/src/svg/*.svg',
-  ion: './tmpicon/icons/ion/src/*.svg'
-}
 var cleanAtrributes = function ($el, $) {
   _.each(attrs, function (attr) {
     $el.removeAttr(attr)
@@ -31,6 +26,7 @@ var cleanAtrributes = function ($el, $) {
     cleanAtrributes($(el), $)
   })
 }
+
 //
 function writeIcon (iconPath) {
   var iconFolder = iconPath.split('/')[3] // Hope this works
@@ -55,7 +51,6 @@ function generateIcon (iconPath, componentName) {
   var content = $svg.html()
 
   var viewBox = $svg.attr('viewBox')
-  console.log(viewBox)
   return template({
     componentName,
     content,
@@ -66,7 +61,7 @@ function generateIcon (iconPath, componentName) {
 async function generateIcons (path) {
   try {
     const icons = await glob(path)
-    //
+
     return icons
   } catch (error) {
     console.log(error)
@@ -79,16 +74,18 @@ rimraf(dist, () => {
   for (let set in iconSets) {
     work.push(generateIcons(iconSets[set]))
   }
-
+  var data = []
   Promise.all(work)
     .then(data => {
       for (let set of data) {
         let iconFolder = set[0].split('/')[3]
+
         const imports =
           set
             .map(iconPath => {
               let fileName = path.basename(iconPath, '.svg')
               let componentName = camelize(`${iconFolder}-${fileName}`)
+
               return `var ${componentName} = require('./${fileName}').default`
             })
             .join('\n') + '\n'
@@ -111,14 +108,16 @@ module.exports = {
 `
         var destination = path.join(dist, iconFolder, 'index.js')
         filndir.ws(destination, indexJS, 'utf-8')
-
         for (let icon of set) {
           iconCount++
           writeIcon(icon)
         } //
-      }
 
-      console.log(`${iconCount} generated Icons`)
+        filndir.ws(
+          './docs/iconCount.js',
+          `export default { iconCount: ${iconCount} }\n`
+        )
+      }
     })
     .catch(err => {
       console.log('error', err)

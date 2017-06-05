@@ -26,11 +26,12 @@ const ${data.componentName} = {
     const svg = h('svg', {
       class: ctx.props.className,
       style: ctx.props.styles,
-       preserveAspectRatio:'xMidYMid meet',
+  
       attrs: {
         height: ctx.props.height,
         width: ctx.props.width,
-        viewBox: '${data.viewBox}',
+        preserveAspectRatio:'xMidYMid meet',
+        viewBox: ctx.props.viewBox || '${data.viewBox}',
         fill: 'currentColor',
       },
       domProps: {
