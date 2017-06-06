@@ -8,7 +8,7 @@
     "dev": "poi docs/app.js",
     "build": "poi build docs/app.js -d docs/dist",
     "generate": "gulp && node generator.js",
-    "deploy": "git submodule update --init && node generator && node createDocs.js && npm run build && gulp deploy",
+    "deploy": "node generator && node createDocs.js && npm run build && gulp deploy",
     "generate:reload": "nodemon generator.js --watch generator.js",
     "generate:docs": "nodemon createDocs.js --watch createDocs.js"
   },
@@ -24,11 +24,8 @@
   },
   "devDependencies": {
     "axios": "^0.16.2",
-    "babel-plugin-add-module-exports": "^0.2.1",
     "camelize": "^1.0.0",
     "cheerio": "^1.0.0-rc.1",
-    "docs": "0.0.0-37",
-    "download-github-repo": "^0.1.3",
     "filendir": "^1.0.0",
     "fuse.js": "^3.0.4",
     "github-download": "^0.5.0",
@@ -45,11 +42,9 @@
     "sass-loader": "^6.0.5",
     "svg-scaler": "^0.1.5",
     "underscore": "^1.8.3",
-    "vue-clipboard2": "0.0.6",
     "vue-fuse": "^1.1.0",
     "vue-ripple-directive": "^1.0.7",
     "vue-simple-spinner": "^1.2.1",
-    "vue2-clipboards": "0.0.6",
     "webpack": "^2.6.1"
   }
 }
